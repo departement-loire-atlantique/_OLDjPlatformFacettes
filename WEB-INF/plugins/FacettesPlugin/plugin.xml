@@ -24,8 +24,8 @@
      
  
   <plugincomponents>
-    <queryfilter           class="fr.cg44.plugin.facettes.channellistener.CityQueryFilter" />
-    <queryfilter           class="fr.cg44.plugin.facettes.channellistener.CantonQueryFilter" />      
+    <queryfilter           class="fr.cg44.plugin.facettes.queryfilter.CityQueryFilter" />
+    <queryfilter           class="fr.cg44.plugin.facettes.queryfilter.CantonQueryFilter" />      
   </plugincomponents> 
  
  
