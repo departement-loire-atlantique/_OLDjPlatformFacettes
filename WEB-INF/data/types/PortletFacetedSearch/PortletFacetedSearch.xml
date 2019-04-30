@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<type name="PortletFacetedSearch" superclass="generated.PortletSearch" debatable="false" unitFieldEdition="false" audienced="false" categoryTab="true" readRightTab="true" updateRightTab="true" templateTab="true" workflowTab="true" advancedTab="true" titleML="true" hbm="true" authgroups="||||||">
+  <title ml="true">
+    <label xml:lang="fr">Titre</label>
+    <label xml:lang="en">Title</label>
+  </title>
+  <fields>
+    <field name="facetKeywords" editor="boolean" required="false" compactDisplay="false" type="boolean" default="off" ml="false" descriptionType="text" searchable="false" html="false" checkHtml="true">
+      <label xml:lang="fr">Recherche par mot-clé</label>
+      <onLabel xml:lang="fr">Oui</onLabel>
+      <onLabel xml:lang="en">Yes</onLabel>
+      <offLabel xml:lang="fr">Non</offLabel>
+      <offLabel xml:lang="en">No</offLabel>
+    </field>
+    <field name="selectSearchBranches" editor="textfield" required="false" compactDisplay="false" type="String[]" searchable="false" size="10" ml="false" html="false" checkHtml="true" descriptionType="tooltip">
+      <label xml:lang="fr">Identifiants des catégories (liste déroulante)</label>
+    </field>
+    <field name="dynamicSelectSearchBranches" editor="textfield" required="false" compactDisplay="false" type="String[]" searchable="false" size="10" ml="false" html="false" checkHtml="true" descriptionType="text">
+      <label xml:lang="fr">Identifiants des catégories de sélection dynamique</label>
+    </field>
+    <field name="searchBranches" editor="category" required="false" compactDisplay="false" type="java.util.TreeSet" chooser="tree" exclusive="false" root="j_3" ml="false" descriptionType="text" searchable="false" html="false" checkHtml="true" displayRoot="false">
+      <label xml:lang="fr">Branches de recherche</label>
+    </field>
+    <field name="brancheMode" editor="boolean" required="false" compactDisplay="false" type="boolean" default="off" ml="false" descriptionType="tooltip" searchable="false" html="false" checkHtml="true">
+      <label xml:lang="fr">Mode des branches</label>
+      <description xml:lang="fr">Les différentes branches fonctionnent soit en union soit en intersection. Effectuer une recherche portant sur plusieurs branches en union revient à rechercher des contenus pouvant être dans toutes les catégories choisies. Lorsqu'il s'agit d'une intersection, cela revient à rechercher des contenus devant être au moins dans une des catégories sélectionnées de chaque branche.</description>
+      <onLabel xml:lang="fr">Intersection</onLabel>
+      <onLabel xml:lang="en">Yes</onLabel>
+      <offLabel xml:lang="fr">Union</offLabel>
+      <offLabel xml:lang="en">No</offLabel>
+    </field>
+    <field name="displayTooltip" editor="boolean" required="false" compactDisplay="false" type="boolean" default="on" ml="false" descriptionType="tooltip" searchable="false" html="false" checkHtml="true">
+      <label xml:lang="fr">Affichage de l'infobulle</label>
+      <description xml:lang="fr">Si oui, affiche une infobulle dont le contenu correspond à la description de la catégorie</description>
+      <onLabel xml:lang="fr">Oui</onLabel>
+      <onLabel xml:lang="en">Yes</onLabel>
+      <offLabel xml:lang="fr">Non</offLabel>
+      <offLabel xml:lang="en">No</offLabel>
+    </field>
+    <field name="categoriesDepth" editor="enumerate" required="false" compactDisplay="false" type="String" chooser="listbox" valueList="1|2|3|4|5" ml="false" descriptionType="text" labelList="1|2|3|4|5" searchable="false" html="false" checkHtml="true">
+      <label xml:lang="fr">Profondeur maximale des catégories</label>
+    </field>
+    <field name="facetCity" editor="boolean" required="false" compactDisplay="false" type="boolean" default="off" ml="false" descriptionType="text" searchable="false" html="false" checkHtml="true">
+      <label xml:lang="fr">Recherche par commune</label>
+      <onLabel xml:lang="fr">Oui</onLabel>
+      <onLabel xml:lang="en">Yes</onLabel>
+      <offLabel xml:lang="fr">Non</offLabel>
+      <offLabel xml:lang="en">No</offLabel>
+    </field>
+    <field name="facetBorderingCities" editor="boolean" required="false" compactDisplay="false" type="boolean" default="on" ml="false" descriptionType="text" searchable="false" html="false" checkHtml="true">
+      <label xml:lang="fr">Recherche par communes limitrophes</label>
+      <onLabel xml:lang="fr">Oui</onLabel>
+      <onLabel xml:lang="en">Yes</onLabel>
+      <offLabel xml:lang="fr">Non</offLabel>
+      <offLabel xml:lang="en">No</offLabel>
+    </field>
+    <field name="facetCanton" editor="boolean" required="false" compactDisplay="false" type="boolean" default="off" ml="false" descriptionType="text" searchable="false" html="false" checkHtml="true">
+      <label xml:lang="fr">Recherche par canton</label>
+      <onLabel xml:lang="fr">Oui</onLabel>
+      <onLabel xml:lang="en">Yes</onLabel>
+      <offLabel xml:lang="fr">Non</offLabel>
+      <offLabel xml:lang="en">No</offLabel>
+    </field>
+    <field name="facetDelegation" editor="boolean" required="false" compactDisplay="false" type="boolean" default="on" ml="false" descriptionType="text" searchable="false" html="false" checkHtml="true">
+      <label xml:lang="fr">Recherche par délégation</label>
+      <onLabel xml:lang="fr">Oui</onLabel>
+      <onLabel xml:lang="en">Yes</onLabel>
+      <offLabel xml:lang="fr">Non</offLabel>
+      <offLabel xml:lang="en">No</offLabel>
+    </field>
+    <field name="facetDate" editor="boolean" required="false" compactDisplay="false" type="boolean" default="off" ml="false" descriptionType="text" searchable="false" html="false" checkHtml="true">
+      <label xml:lang="fr">Recherche par date</label>
+      <onLabel xml:lang="fr">Oui</onLabel>
+      <onLabel xml:lang="en">Yes</onLabel>
+      <offLabel xml:lang="fr">Non</offLabel>
+      <offLabel xml:lang="en">No</offLabel>
+    </field>
+    <field name="facetMonth" editor="boolean" required="false" compactDisplay="false" type="boolean" default="off" ml="false" descriptionType="text" searchable="false" html="false" checkHtml="true">
+      <label xml:lang="fr">Recherche par mois</label>
+      <onLabel xml:lang="fr">Oui</onLabel>
+      <onLabel xml:lang="en">Yes</onLabel>
+      <offLabel xml:lang="fr">Non</offLabel>
+      <offLabel xml:lang="en">No</offLabel>
+    </field>
+    <field name="facetAlphabet" editor="boolean" required="false" compactDisplay="false" type="boolean" default="off" ml="false" descriptionType="text" searchable="false" html="false" checkHtml="true">
+      <label xml:lang="fr">Recherche alphabétique</label>
+      <onLabel xml:lang="fr">Oui</onLabel>
+      <onLabel xml:lang="en">Yes</onLabel>
+      <offLabel xml:lang="fr">Non</offLabel>
+      <offLabel xml:lang="en">No</offLabel>
+    </field>
+    <field name="facetTitle" editor="boolean" required="false" compactDisplay="false" type="boolean" default="off" ml="false" descriptionType="text" searchable="false" html="false" checkHtml="true">
+      <label xml:lang="fr">Recherche par titre</label>
+      <onLabel xml:lang="fr">Oui</onLabel>
+      <onLabel xml:lang="en">Yes</onLabel>
+      <offLabel xml:lang="fr">Non</offLabel>
+      <offLabel xml:lang="en">No</offLabel>
+    </field>
+    <field name="facetYearMonth" editor="boolean" required="false" compactDisplay="false" type="boolean" default="off" ml="false" descriptionType="text" searchable="false" html="false" checkHtml="true">
+      <label xml:lang="fr">Recherche par année/mois</label>
+      <onLabel xml:lang="fr">Oui</onLabel>
+      <onLabel xml:lang="en">Yes</onLabel>
+      <offLabel xml:lang="fr">Non</offLabel>
+      <offLabel xml:lang="en">No</offLabel>
+    </field>
+    <field name="numberMonth" editor="int" required="false" compactDisplay="false" type="int" default="12" ml="false" descriptionType="text" searchable="false" html="false" checkHtml="true" minValue="2" maxValue="30" unit="mois" unitPos="after">
+      <label xml:lang="fr">Nombre de mois</label>
+    </field>
+    <field name="jspFacettes" editor="textfield" required="false" compactDisplay="false" type="String" searchable="false" rows="5" cols="80" ml="false" wiki="true" wikiwyg="false" html="false" checkHtml="true" descriptionType="text">
+      <label xml:lang="fr">Jsp facettes</label>
+    </field>
+    <field name="blocLien" editor="link" required="false" compactDisplay="false" type="generated.PortletImage" parent="false">
+      <label xml:lang="fr">bloc lien</label>
+    </field>
+    <field name="orderedFacets" editor="textfield" required="false" compactDisplay="false" type="String[]" searchable="false" size="80" ml="false" html="false" checkHtml="true" descriptionType="text" chooser="keyword">
+      <label xml:lang="fr">Ordre des facettes</label>
+      <description xml:lang="fr">Liste des tags : alphabétique, année/mois, canton, catégories, catégories dynamiques, commune, date, mois, mot-clé et titre.</description>
+    </field>
+    <field name="facetOperator" editor="boolean" required="false" compactDisplay="false" type="boolean" default="on" ml="false" descriptionType="text" searchable="false" html="false" checkHtml="true">
+      <label xml:lang="fr">Opérateur de calcul des résultats</label>
+      <description xml:lang="fr">ET ne donne que les résultats répondant à l'intégralité des critères des facettes (hors catégories) tandis que OU donne tous les résultats répondant à au moins un des critères d'une des facettes (hors catégories).</description>
+      <onLabel xml:lang="fr">ET</onLabel>
+      <onLabel xml:lang="en">Yes</onLabel>
+      <offLabel xml:lang="fr">OU</offLabel>
+      <offLabel xml:lang="en">No</offLabel>
+    </field>
+    <field type="super" />
+  </fields>
+  <label xml:lang="fr">Portlet Recherche Facettes</label>
+  <tabs />
+</type>
+

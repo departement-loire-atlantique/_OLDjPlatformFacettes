@@ -1,0 +1,59 @@
+<%@ page import="com.jalios.jcms.handler.QueryHandler" %><%
+
+  Collection collection    = new TreeSet();
+  Set        allCidSet     = new TreeSet();
+  int        resultSize    = 0;
+  boolean    isResultSizeAccurate = true;     
+  Class      queryHandlerTypesCommonSuperClass = Publication.class;
+  {
+    %><%@ include file='/types/PortletQueryForeach/doQueryHandlers.jspf' %><%  
+    int	cptQuery = 0;
+    for (Iterator itHandler = queryHandlerSet.iterator(); itHandler.hasNext(); ){
+      QueryHandler handler = (QueryHandler) itHandler.next();
+      QueryResultSet qrSet = handler.getResultSet();
+      if (queryHandlerSet.size() == 1) {
+        collection = qrSet;
+        resultSize = qrSet.getResultSize();
+      } else {
+        // publication already in the collection may be added by these new query
+        // make sure the total number of items is correctly computed with those duplicated items
+        int previousSize = collection.size();
+        
+        
+        
+        // DIGIWIN - ajout du cas pour la recherche à facettes.
+        // Permet une intersection entre les queryHandler.
+        if(Util.notEmpty(request.getParameter("cidBranches")) ) {
+	        cptQuery++;       
+	        if(cptQuery == 1) {        
+	            collection.addAll(qrSet);
+	        }else {
+	            collection.retainAll(qrSet);
+	        }
+        }else {
+        	collection.addAll(qrSet);
+        }
+        
+        
+        
+        int newSize = collection.size();
+        int duplicateItemsNbr = newSize - (qrSet.size() + previousSize);
+        resultSize += qrSet.getResultSize() + duplicateItemsNbr;
+        // For the current query result, if the the total number of result is more important
+        // than the collection being added to the result, we have no guarantee that 
+        // there won't be any duplicated publication for the next page : 
+        //  --> it means the total is not guaranteed to be accurate, indicate it
+        if (qrSet.getResultSize() > qrSet.size()) {
+          isResultSizeAccurate = false;
+        }
+      }
+      allCidSet.addAll(handler.getAllCidSet());
+      isResultSizeAccurate = isResultSizeAccurate && qrSet.isTotalAccurate();
+    }
+    queryHandlerTypesCommonSuperClass = QueryHandler.getTypesCommonSuperClass((QueryHandler[]) queryHandlerSet.toArray(new QueryHandler[queryHandlerSet.size()]));
+  }
+
+  int maxResults  = box.getMaxResults();
+  int skipResults = box.getSkipFirstResults();
+
+%>
