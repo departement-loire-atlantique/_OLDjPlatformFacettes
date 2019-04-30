@@ -1,4 +1,4 @@
-package fr.cg44.plugin.facettes.channellistener;
+package fr.cg44.plugin.facettes.queryfilter;
 
 import static com.jalios.jcms.Channel.getChannel;
 
