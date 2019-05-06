@@ -19,7 +19,7 @@ import generated.City;
 import generated.Place;
 
 /**
- * Test unitaire de la classe PublicationFacetedSearchCityEnginePolicyFilter pour la ré-indexation complète
+ * Test unitaire de la classe PublicationFacetedSearchCityEnginePolicyFilter pour la ré-indexation complète (sur les communes)
  * Et de la classe CityQueryFilter pour la recherche sur le code commune
  */
 public class SearchCityTest extends JcmsTestCase4  {
@@ -59,6 +59,17 @@ public class SearchCityTest extends JcmsTestCase4  {
 	static Place place3_3;
 	static Place place3_4;
 	
+	/**
+	 * TU 4 recherchePubRefDoubleCantonCommune
+	 */
+	static Canton canton4_1;
+	static Canton canton4_2;
+	static City city4_1;
+	static City city4_2;
+	static Place place4_1;
+	static Place place4_2;
+	
+	
 	
 	@BeforeClass
 	/**
@@ -71,12 +82,16 @@ public class SearchCityTest extends JcmsTestCase4  {
 		createDataRecherchePubRefCantonCommune();	
 		// Données de test pour recherchePubRefInverseCantonCommune
 		createDataRecherchePubRefInverseCantonCommune();
+		// Données de test pour recherchePubRefDoubleCantonCommune
+		createDataRecherchePubRefDoubleCantonCommune();
 		// L'indexation des publications ayant lieu de manière asynchrone dans un thread dédié.
 		// la recherche textuelle d'une publication immédiatement après sa création pourrait ne pas renvoyer de résultat.
 		// Il est alors nécessaire de faire appel à une temporisation.
 		try { Thread.sleep(1000); } catch(Exception ex) { }		
 	}
 		 
+
+
 
 
 	/**
@@ -308,6 +323,75 @@ public class SearchCityTest extends JcmsTestCase4  {
 		place3_4.performCreate(admin);
 		
 	}
+	
+	
+	
+
+	/**
+	 * Données test 4
+	 * Données de test pour recherchePubRefDoubleCantonCommune
+	 */
+	private static void createDataRecherchePubRefDoubleCantonCommune() {
+		
+		/**
+		 * Commune
+		 */		
+		// Création d'une commune de test "commune 4.1"
+		city4_1 = new City();
+		city4_1.setTitle("Commune 4.1");
+		city4_1.setCityCode(410);
+		city4_1.setAuthor(admin);
+		city4_1.performCreate(admin);	
+				
+		/**
+		 * Canton sur commune 4.2
+		 */
+		// Création d'une canton de test "canton 4.1"
+		canton4_1 = new Canton();
+		canton4_1.setTitle("Canton 4.1");
+		canton4_1.setCity(city4_1);
+		canton4_1.setAuthor(admin);
+		canton4_1.performCreate(admin);	
+		
+		// Création d'une canton de test "canton 4.2"
+		canton4_2 = new Canton();
+		canton4_2.setTitle("Canton 4.2");
+		canton4_2.setCity(city4_1);
+		canton4_2.setAuthor(admin);
+		canton4_2.performCreate(admin);	
+		
+		/**
+		 * Commune avec canton 4.1
+		 */	
+		// Création d'une commune de test "commune 4.2"
+		city4_2 = new City();
+		city4_2.setTitle("Commune 4.2");
+		city4_2.setCityCode(420);
+		city4_2.setCanton(canton4_1);
+		city4_2.setAuthor(admin);
+		city4_2.performCreate(admin);
+		
+		/**
+		 * Fiche lieux sur Canton 4.1
+		 */	
+		// Création d'une fiche lieux de test "place 4.1"
+		place4_1 = new Place();
+		place4_1.setTitle("place 4.1");
+		place4_1.setCanton(canton4_1);
+		place4_1.setAuthor(admin);
+		place4_1.performCreate(admin);
+		
+		/**
+		 * Fiche lieux sur Canton 4.2
+		 */	
+		// Création d'une fiche lieux de test "place 4.2"
+		place4_2 = new Place();
+		place4_2.setTitle("place 4.2");
+		place4_2.setCanton(canton4_2);
+		place4_2.setAuthor(admin);
+		place4_2.performCreate(admin);
+				
+	}
 
 
 	/*-----------------------------------------------------------------------------------/
@@ -458,6 +542,50 @@ public class SearchCityTest extends JcmsTestCase4  {
 	    assertEquals("Recherche sur commune 3.2 invalide", resultatTestSet, qrs);	
 	}
 	
+	
+	
+	
+	/*-----------------------------------------------------------------------------------/
+	 * Test 4
+	 * Fiche Lieux -> Canton <-> Commune
+	 * Test de recherche sur des fiches lieux
+	 * Les fiches lieux référencement indirectement la commune dans leur champ "canton"
+	 * La commune référence son canton et le canton référence une des ses commune (exemple réel : ((Canton) reze 1, reze 2) -> ((Commune) reze) ) ;  ((Commune) Brains, Bouaye) -> ((Canton) reze 1)
+	 *-----------------------------------------------------------------------------------*/
+	
+	
+	@Test
+	/**
+	 * Test recherche sur commune 4.1
+	 */
+	public void recherchePubRefDoubleCantonCommune4_1() {		
+		// Recherche sur commune 4.1
+		// city 4.1 (canton 4.1 et 4.2) est référencée par : place 4.1 (canton 4.1) et place 4.2 (canton 4.2)
+		Set<Publication> resultatTestSet = new HashSet<Publication>();
+		resultatTestSet.add(place4_1);
+		resultatTestSet.add(place4_2);
+		QueryHandler qh = new QueryHandler();
+		CityQueryFilter.addCitySearch(qh, city4_1);
+		qh.setTypes("Place");		
+	    QueryResultSet qrs = qh.getResultSet();	    	    
+	    assertEquals("Recherche sur commune 4.1 invalide", resultatTestSet, qrs);	
+	}
+		
+	@Test
+	/**
+	 * Test recherche sur commune 4.2
+	 */
+	public void recherchePubRefDoubleCantonCommune4_2() {		
+		// Recherche sur commune 4.2
+		// city 4.2 (canton 4.1) est référencée par : place 4.1
+		Set<Publication> resultatTestSet = new HashSet<Publication>();
+		resultatTestSet.add(place4_1);
+		QueryHandler qh = new QueryHandler();
+		CityQueryFilter.addCitySearch(qh, city4_2);
+		qh.setTypes("Place");		
+	    QueryResultSet qrs = qh.getResultSet();	    	    
+	    assertEquals("Recherche sur commune 4.2 invalide", resultatTestSet, qrs);	
+	}
 
 	
 }
