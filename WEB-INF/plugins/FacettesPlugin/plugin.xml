@@ -10,6 +10,10 @@
 &lt;/div&gt;</description>
 
 
+  <dependencies>
+    <dependency name="SoclePlugin" />
+  </dependencies>
+
  <types>
     
     <type name="PortletFacetedSearch" />
