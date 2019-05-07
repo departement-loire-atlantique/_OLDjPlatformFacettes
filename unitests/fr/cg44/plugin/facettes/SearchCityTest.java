@@ -76,13 +76,13 @@ public class SearchCityTest extends JcmsTestCase4  {
 	 * Création des données de test pour chaque test unitaire
 	 */
 	public static void avantTest() {		
-		// Données de test pour recherchePubDirectCommune
+		// Données de test 1 pour recherchePubDirectCommune
 		createDataRecherchePubDirectCommune();		
-		// Données de test pour recherchePubRefCantonCommune
+		// Données de test 2 pour recherchePubRefCantonCommune
 		createDataRecherchePubRefCantonCommune();	
-		// Données de test pour recherchePubRefInverseCantonCommune
+		// Données de test 3 pour recherchePubRefInverseCantonCommune
 		createDataRecherchePubRefInverseCantonCommune();
-		// Données de test pour recherchePubRefDoubleCantonCommune
+		// Données de test 4 pour recherchePubRefDoubleCantonCommune
 		createDataRecherchePubRefDoubleCantonCommune();
 		// L'indexation des publications ayant lieu de manière asynchrone dans un thread dédié.
 		// la recherche textuelle d'une publication immédiatement après sa création pourrait ne pas renvoyer de résultat.
@@ -571,6 +571,7 @@ public class SearchCityTest extends JcmsTestCase4  {
 	    assertEquals("Recherche sur commune 4.1 invalide", resultatTestSet, qrs);	
 	}
 		
+	
 	@Test
 	/**
 	 * Test recherche sur commune 4.2
