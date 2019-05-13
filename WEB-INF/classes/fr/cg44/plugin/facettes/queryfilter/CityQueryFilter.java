@@ -15,7 +15,7 @@ import com.jalios.jcms.handler.QueryHandler;
 import com.jalios.jcms.plugin.Plugin;
 import com.jalios.util.Util;
 
-import fr.cg44.plugin.socle.indexation.policyfilter.PublicationFacetedSearchCityEnginePolicyFilter;
+import fr.cg44.plugin.facettes.policyfilter.PublicationFacetedSearchCityEnginePolicyFilter;
 import generated.City;
 
 

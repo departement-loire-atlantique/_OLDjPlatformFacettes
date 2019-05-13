@@ -27,10 +27,13 @@
   </types>
      
  
-  <plugincomponents>
+  <plugincomponents>  
+    <datacontroller        class="fr.cg44.plugin.facettes.datacontroller.IndexationDataController" types="City Canton" />
     <queryfilter           class="fr.cg44.plugin.facettes.queryfilter.CityQueryFilter" />
-    <queryfilter           class="fr.cg44.plugin.facettes.queryfilter.CantonQueryFilter" />      
-  </plugincomponents> 
+    <queryfilter           class="fr.cg44.plugin.facettes.queryfilter.CantonQueryFilter" />        
+    <policyfilter          class="fr.cg44.plugin.facettes.policyfilter.PublicationFacetedSearchCityEnginePolicyFilter" />
+    <policyfilter          class="fr.cg44.plugin.facettes.policyfilter.PublicationFacetedSearchCantonEnginePolicyFilter" />
+  </plugincomponents>
  
  
   <private-files>
