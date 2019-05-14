@@ -26,12 +26,6 @@ public class TitleQueryFilter extends QueryFilter {
 	
 	private static final Logger LOGGER = Logger.getLogger(TitleQueryFilter.class);
 
-	public boolean init(Plugin plugin) {	 
-		LOGGER.debug("TitleQueryFilter is enabled");
-		return true;
-	}
-	
-	
 	public QueryHandler filterQueryHandler(QueryHandler qh, Map context) {
 		
 		HttpServletRequest request = getChannel().getCurrentServletRequest();

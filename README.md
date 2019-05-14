@@ -1,4 +1,22 @@
+## Portlet FacetedSearch
+
+### Objectif
+
+Pouvoir réaliser simplement des moteurs à facette gràce à une Portlet dédiée
+TODO : Explication de laportlet, voir si tout sert encore
+TODO : Analyse de tous les cas - Rappel des fonctionnalités
+
+### Fichiers impliqués 
+
+types/PortletFacetedSearch/doPortletFacetedSearch.jsp
+TODO : avoir un gabarit qui prend en compte toutes les fonctionnalités 
+
+WEB-INF/data/types/PortletFacetedSearch/PortletFacetedSearch.xml
+TODO : a reevoir
+
 ## QueryFilter et indexation personnalisés des types de contenu Canton et Ville
+
+TODO : communes limitrophes à ajouter dans les facettes
 
 ### Objectif
 
@@ -16,6 +34,15 @@ WEB-INF/classes/fr/cg44/plugin/socle/indexation/policyfilter/PublicationFacetedS
 WEB-INF/classes/fr/cg44/plugin/socle/indexation/datacontroller/IndexationDataController.java
 WEB-INF/classes/fr/cg44/plugin/facettes/queryfilter/CantonQueryFilter.java
 WEB-INF/classes/fr/cg44/plugin/facettes/queryfilter/CityQueryFilter.java
+TODO - A finir et à décrire WEB-INF/classes/fr/cg44/plugin/facettes/queryfilter/TitleQueryFilter.java
+TOD - faire une classe mère pour les filter - Nom LuceneQueryFilter (Abstraite avec nouvelle méthode)
+
+Tests unitaires pour l'indexation :
+unitests/fr/cg44/plugin/facettes/ModifSearchCityTest.java
+unitests/fr/cg44/plugin/facettes/SearchCityTest.java
+unitests/fr/cg44/plugin/facettes/SocleDataInit.java
+TODO : A relire
+
 
 ## Surcharge des query handler des portlets "Portlet requête itération" et "Portlet itération détaillée"
 

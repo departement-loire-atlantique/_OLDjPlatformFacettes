@@ -31,7 +31,7 @@ public class PublicationFacetedSearchCantonEnginePolicyFilter extends BasicLucen
 			Canton cantonPub = (Canton) publication.getFieldValue("canton");
 			indexCantonCode(doc, cantonPub);			
 		} catch (NoSuchFieldException e) {
-			LOGGER.debug("Le contenu n'a pas de référence à un canton à indexer", e);
+			LOGGER.trace("Le contenu n'a pas de référence à un canton à indexer", e);
 		}				
 		// Si la commune est référencée dans un canton alors indexe le code canton dans cette commune.
 		if(publication instanceof City) {

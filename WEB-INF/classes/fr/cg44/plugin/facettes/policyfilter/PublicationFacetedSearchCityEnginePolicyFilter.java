@@ -27,7 +27,7 @@ public class PublicationFacetedSearchCityEnginePolicyFilter extends BasicLuceneS
 	
 	@Override
 	public void filterPublicationDocument(Document doc, Publication publication, String lang) {   			
-		// Indexe les publications avec le code commune a la quelle elles sont ratachées
+		// Indexe les publications avec le code commune a laquelle elles sont ratachées
 		if(!(publication instanceof City)) {
 			// Récupère le champ "city" du type de contenu pour l'indéxer si celui-ci est présent
 			indexCity(doc, publication);
@@ -50,7 +50,7 @@ public class PublicationFacetedSearchCityEnginePolicyFilter extends BasicLuceneS
 			City cityPub = (City) publication.getFieldValue("city");
 			indexCityCode(doc, cityPub);			
 		} catch (NoSuchFieldException e) {
-			LOGGER.debug("Le contenu n'a pas de référence à une commune à indexer", e);
+			LOGGER.trace("Le contenu n'a pas de référence à une commune à indexer", e);
 		}	
 	}
 	
@@ -70,7 +70,7 @@ public class PublicationFacetedSearchCityEnginePolicyFilter extends BasicLuceneS
 				}
 			}
 		} catch (NoSuchFieldException e) {
-			LOGGER.debug("Le contenu n'a pas de référence à plusieurs communes à indexer", e);
+			LOGGER.trace("Le contenu n'a pas de référence à plusieurs communes à indexer", e);
 		}	
 	}
 	
@@ -100,7 +100,7 @@ public class PublicationFacetedSearchCityEnginePolicyFilter extends BasicLuceneS
 				indexCityCode(doc, city);
 			}			
 		} catch (NoSuchFieldException e) {
-			LOGGER.debug("Le contenu n'a pas de référence à un canton à indexer", e);
+			LOGGER.trace("Le contenu n'a pas de référence à un canton à indexer", e);
 		}
 	}
 	

@@ -15,7 +15,7 @@ import generated.Canton;
 import generated.City;
 
 /**
- * Si une commune ou un canton est modifiés alors réindexe les contenus liés
+ * Si une commune ou un canton est modifié alors réindexe les contenus liés
  */
 public class IndexationDataController extends BasicDataController {
 			
@@ -25,7 +25,7 @@ public class IndexationDataController extends BasicDataController {
 			if(data instanceof City) {	
 				// Réindexe les contenus liées à la commune si son code commune ou canton a été modifié
 				indexPubCity(data, context);
-			}else if(data instanceof Canton) {
+			} else if(data instanceof Canton) {
 				// Réindexe les contenus liées au canton si son code canton ou la commune a été modifié
 				indexPubCanton(data, context);
 			}	
@@ -53,10 +53,10 @@ public class IndexationDataController extends BasicDataController {
 		// Si le code commune ou le canton de la commune à été changé alors réindexe les contenus liés
 		if(cityCode != previousCityCode || !JcmsUtil.isSameId(previsousCityCanton, cityCanton)) {
 
-			// Récuprère les publications qui référencent directement la commune (champ mono)
+			// Récupère les publications qui référencent directement la commune (champ mono)
 			TreeSet<Publication> pubRefSet = new TreeSet<>(city.getLinkIndexedDataSet(Publication.class, "city"));
 			
-			// Récuprère les publications qui référencent directement la commune (champ multiple)
+			// Récupère les publications qui référencent directement la commune (champ multiple)
 			pubRefSet.addAll(new TreeSet<>(city.getLinkIndexedDataSet(Publication.class, "cities")));
 			
 			// Récupère le ou les cantons associés à cette commune
