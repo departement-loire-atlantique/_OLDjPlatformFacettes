@@ -26,12 +26,6 @@ public class CityQueryFilter extends QueryFilter {
 
 	private static final Logger LOGGER = Logger.getLogger(CityQueryFilter.class);
 
-	public boolean init(Plugin plugin) {	 
-		LOGGER.debug("CityQueryFilter is enabled");
-		return true;
-	}
-
-
 	public QueryHandler filterQueryHandler(QueryHandler qh, Map context) {
 
 		HttpServletRequest request = getChannel().getCurrentServletRequest();	

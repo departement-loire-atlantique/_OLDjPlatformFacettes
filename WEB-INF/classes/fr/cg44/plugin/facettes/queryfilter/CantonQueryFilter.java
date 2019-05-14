@@ -25,12 +25,6 @@ import generated.Canton;
 public class CantonQueryFilter extends QueryFilter {
 	
 	private static final Logger LOGGER = Logger.getLogger(CantonQueryFilter.class);
-
-	public boolean init(Plugin plugin) {	 
-		LOGGER.debug("CantonQueryFilter is enabled");
-		return true;
-	}
-	
 	
 	public QueryHandler filterQueryHandler(QueryHandler qh, Map context) {
 		
