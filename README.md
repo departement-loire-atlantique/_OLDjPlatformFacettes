@@ -6,6 +6,66 @@ Pouvoir réaliser simplement des moteurs à facette gràce à une Portlet dédi�
 TODO : Explication de laportlet, voir si tout sert encore
 TODO : Analyse de tous les cas - Rappel des fonctionnalités
 
+Fonction panier : actif ou non
+Fonction export CVS panier : actif ou non
+Fonction export CSV de la liste courante : actif ou non
+Fonction export PDF panier : actif ou non
+Fonction export PDF de la liste courante : actif ou non
+
+Colonnes CSV (Le CVS présentera tous les champs entre guillements) :
+  - url : URL du contenu (généré par JCMS)
+  - * : nom technique du champ
+  - multivalué : séparé les données par des points virgules
+  - x.y : le champs y du contenu x
+  - en cas d'erreur (le champs n'existe pas, exception, ... vide)
+  
+Exemple : 
+
+
+
+Config :
+
+Titre colonne CSV : ["titre", "teléphone", "URL du document"; ...]
+Titre général PDF : "titre PDF"
+
+places:
+ - csv usage : Nom de l'usage
+ - Colonnes CSV : [title, telephone, document.url, url]
+ - Titre contenu PDF : $[titre] - $[date_creation]
+ - pdf usage : Nom de l'usage
+ - text PDF (champ texte) :
+ 
+**Adresse** : ${adresse}
+**tel** : ${tel}
+**canton**: ${canton.title}
+ - infobulle usage : Nom de l'usage
+ - titre infobulle : ${title}
+ - lien infobulle: url
+ - picto infobulle: url | id_cat|url_cat, id_cat|url_cat, id_cat|couleur
+ - text infobulle (champ texte) :
+**Adresse** : ${adresse}
+**tel** : ${tel}
+**canton**: ${canton.title}
+ - card usage : Nom de l'usage
+ - titre card
+ - tag card
+ - couleur card :  id_cat|url_cat, id_cat|couleur
+ - text card
+ - lien card: url
+ - image card
+ - minimap long lat
+ - ...
+
+canton:
+ - Colonnes CSV : [title, _, _, url]
+ - Titre contenu PDF : $[titre]
+ - text PDF (champ texte) :
+**Adresse** : ${adresse} 
+
+
+Pour chaque type de contenu : valeur par défaut pouvant être surchargé au niveau de la portlet
+
+
 ### Fichiers impliqués 
 
 types/PortletFacetedSearch/doPortletFacetedSearch.jsp
@@ -17,7 +77,15 @@ TODO : a reevoir
 ## QueryFilter et indexation personnalisés des types de contenu Canton et Ville
 
 TODO : communes limitrophes à ajouter dans les facettes
-
+TODO :
+ - CantonsFacetQueryFilter.java => Quel cas ?
+ - CitiesFacetQueryFilter.java => A faire
+ - CityFacetQueryFilter.java => Fait (reste à valider les communes limitrophes)
+ - DateFacetQueryFilter.java => A faire - Rendu: Elle sera probablement modifée (date + période : le j1our même, le prochain, les prochains, le WE prochain)
+ - DelegationsFacetQueryFilter.java => A faire
+ - FullTextFacetQueryFilter.java -> Dans tous les champs indexés du contenu
+   -- Revoir pondération des champs (configurable : reste à savoir comment)
+ 
 ### Objectif
 
 Quand un contenu est associé à un canton, alors il est automatiquement associé à toutes les villes du canton.
@@ -48,7 +116,7 @@ TODO : A relire
 
 ### Objectif
 
-Pouvoir gérer la recherche par catégorie / sous catégories avec par défaut les règles suivantes :
+Pouvoir gérer la recherche par catégorie / sous catégories avec par défaut les règles suivantes dès que la requête contient un ou des paramètres cidBranches :
  - union entre les éléments d'une même branche (cids)
  - intersection entre les éléments de différentes branches(cidBranches)
  - si on sélectionne un enfant et son parent alors le parent est automatiquement ignoré
