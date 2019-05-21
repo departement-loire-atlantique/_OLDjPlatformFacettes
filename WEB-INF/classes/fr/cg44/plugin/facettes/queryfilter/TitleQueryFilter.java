@@ -12,7 +12,6 @@ import com.jalios.jcms.Data;
 import com.jalios.jcms.HttpUtil;
 import com.jalios.jcms.QueryFilter;
 import com.jalios.jcms.handler.QueryHandler;
-import com.jalios.jcms.plugin.Plugin;
 import com.jalios.util.Util;
 
 import fr.cg44.plugin.facettes.policyfilter.PublicationFacetedSearchCityEnginePolicyFilter;
@@ -24,7 +23,6 @@ import generated.City;
  */
 public class TitleQueryFilter extends QueryFilter {
 	
-	private static final Logger LOGGER = Logger.getLogger(TitleQueryFilter.class);
 
 	public QueryHandler filterQueryHandler(QueryHandler qh, Map context) {
 		

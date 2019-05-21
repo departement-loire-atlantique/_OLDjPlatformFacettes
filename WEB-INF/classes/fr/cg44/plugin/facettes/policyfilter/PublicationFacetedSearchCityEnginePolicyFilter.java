@@ -27,7 +27,7 @@ public class PublicationFacetedSearchCityEnginePolicyFilter extends BasicLuceneS
 	
 	@Override
 	public void filterPublicationDocument(Document doc, Publication publication, String lang) {   			
-		// Indexe les publications avec le code commune a laquelle elles sont ratachées
+		// Indexe dans INDEX_FIELD_CITIES les publications avec le code commune a laquelle elles sont ratachées
 		if(!(publication instanceof City)) {
 			// Récupère le champ "city" du type de contenu pour l'indéxer si celui-ci est présent
 			indexCity(doc, publication);
@@ -113,7 +113,7 @@ public class PublicationFacetedSearchCityEnginePolicyFilter extends BasicLuceneS
 	private void indexCityCode(Document doc, City city){
 		if(Util.notEmpty(city)) {
 			Integer cityCode = city.getCityCode();
-			Field cityField = new StringField(INDEX_FIELD_CITY, Integer.toString(cityCode), Field.Store.NO);
+			Field cityField = new StringField(INDEX_FIELD_CITIES, Integer.toString(cityCode), Field.Store.NO);
 			doc.add(cityField);	
 		}
 	}
