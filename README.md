@@ -88,10 +88,13 @@ TODO :
  
 ### Objectif
 
-Quand un contenu est associé à un canton, alors il est automatiquement associé à toutes les villes du canton.
-Quand un contenu est associé à une ville, alors le code INSEE de la ville est ajouté aux meta donnée d'indexation du contenu.
+ - Quand un contenu est associé à un canton, alors il est automatiquement associé à toutes les villes du canton.
+ - Quand un contenu est associé à une commune, alors le code INSEE de la commune est ajouté aux meta donnée d'indexation du contenu.
+ - Quand un contenu est associé à une délégation, alors le code postal de la délégation est ajouté au meta donnée d'indexation du contenu. La recherche sur une délagation va aussi lancer la recherche sur les communes qui ont un lien avec la délégation recherchée.
 
 Le datacontroleur "IndexationDataController" détecte si il est nécessaire de mettre à jour l'indexation si un contenu ville, canton ou délégation a été modifié (code INSEE ou le lien vers canton de la ville). Ce controleur ne réindexe que les publications impactées.
+
+La classe java LuceneQueryFilter est un classe abstraite dont doit hériter tous les query filter de la recherche à facettes. Elle permet d'initialiser la variable "HttpServletRequest request" et de vérifier si celle-ci n'est pas null (se produit lors du démarrage de JPlatform). Il faut surcharger la méthode "doFilter" pour les classes filles qui hérite de cette classe et non "filterQueryHandler".
 
 Le query filter canton, ville et délégation permet d'utiliser cette indexation personnalisée dans les requêtes. Dès que la recherche implique un contenu canton, commune ou délégation, la recherche se base automatiquement sur les champs lucene personnalisés et indexés spécifiquement.
 
@@ -102,6 +105,7 @@ Le query filter délégation en plus de rechercher dans les publications qui ré
 WEB-INF/classes/fr/cg44/plugin/socle/indexation/policyfilter/PublicationFacetedSearchCantonEnginePolicyFilter.java
 WEB-INF/classes/fr/cg44/plugin/socle/indexation/policyfilter/PublicationFacetedSearchCityEnginePolicyFilter.java
 WEB-INF/classes/fr/cg44/plugin/socle/indexation/datacontroller/IndexationDataController.java
+WEB-INF/classes/fr/cg44/plugin/facettes/queryfilter/LuceneQueryFilter.java
 WEB-INF/classes/fr/cg44/plugin/facettes/queryfilter/CantonQueryFilter.java
 WEB-INF/classes/fr/cg44/plugin/facettes/queryfilter/CityQueryFilter.java
 WEB-INF/classes/fr/cg44/plugin/facettes/queryfilter/DelegationQueryFilter.java
