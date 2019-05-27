@@ -91,9 +91,11 @@ TODO :
 Quand un contenu est associé à un canton, alors il est automatiquement associé à toutes les villes du canton.
 Quand un contenu est associé à une ville, alors le code INSEE de la ville est ajouté aux meta donnée d'indexation du contenu.
 
-Le datacontroleur "IndexationDataController" détecte si il est nécessaire de mettre à jour l'indexation si un contenu ville ou canton a été modifié (code INSEE ou le lien vers canton de la ville). Ce controleur ne réindexe que les publications impactées.
+Le datacontroleur "IndexationDataController" détecte si il est nécessaire de mettre à jour l'indexation si un contenu ville, canton ou délégation a été modifié (code INSEE ou le lien vers canton de la ville). Ce controleur ne réindexe que les publications impactées.
 
-Le qurey filter canton et ville permet d'utiliser cette indexation personnalisée dans les requêtes. Dès que la recherche implique un contenu canton ou commune, la recherche se base automatiquement sur les champs lucene personnalisés et indexés spécifiquement.
+Le query filter canton, ville et délégation permet d'utiliser cette indexation personnalisée dans les requêtes. Dès que la recherche implique un contenu canton, commune ou délégation, la recherche se base automatiquement sur les champs lucene personnalisés et indexés spécifiquement.
+
+Le query filter délégation en plus de rechercher dans les publications qui référence directement la délégation, cherche aussi dans les publications qui référence une ou plusieurs communes qui référence elle même la délégation. (Publication -> Commune -> Délégation). Pour effectuer la recherche sur les communes de la délégation, le query filter se base sur le champs lucene personnalisé des communes (code commune).
 
 ### Fichiers impliqués
 
@@ -102,6 +104,7 @@ WEB-INF/classes/fr/cg44/plugin/socle/indexation/policyfilter/PublicationFacetedS
 WEB-INF/classes/fr/cg44/plugin/socle/indexation/datacontroller/IndexationDataController.java
 WEB-INF/classes/fr/cg44/plugin/facettes/queryfilter/CantonQueryFilter.java
 WEB-INF/classes/fr/cg44/plugin/facettes/queryfilter/CityQueryFilter.java
+WEB-INF/classes/fr/cg44/plugin/facettes/queryfilter/DelegationQueryFilter.java
 TODO - A finir et à décrire WEB-INF/classes/fr/cg44/plugin/facettes/queryfilter/TitleQueryFilter.java
 TOD - faire une classe mère pour les filter - Nom LuceneQueryFilter (Abstraite avec nouvelle méthode)
 
