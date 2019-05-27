@@ -13,22 +13,26 @@ import com.jalios.util.Util;
 
 import generated.Canton;
 import generated.City;
+import generated.Delegation;
 
 /**
- * Si une commune ou un canton est modifié alors réindexe les contenus liés
+ * Si une commune, un canton ou une délégation est modifié alors réindexe les contenus liés
  */
 public class IndexationDataController extends BasicDataController {
 			
 	public void afterWrite(Data data, int op, Member mbr, Map context) {
 		if(op != OP_CREATE) {
-			// Si une commune ou un canton est modifié alors réindexe toutes les publications associées
+			// Si une commune, canton ou une délégation est modifié alors réindexe toutes les publications associées
 			if(data instanceof City) {	
 				// Réindexe les contenus liées à la commune si son code commune ou canton a été modifié
 				indexPubCity(data, context);
 			} else if(data instanceof Canton) {
 				// Réindexe les contenus liées au canton si son code canton ou la commune a été modifié
 				indexPubCanton(data, context);
-			}	
+			} else if (data instanceof Delegation) {
+				// Réindexe les contenus liées à la délégation si son code postal a été modifié
+				indexPubDelegation(data, context);
+			}
 		}
 	}
 	
@@ -126,5 +130,31 @@ public class IndexationDataController extends BasicDataController {
 		}
 	}
 
+	
+	/**
+	 * Réindexe les contenus liées à la délégation si son code postal a été modifié
+	 * @param data
+	 * @param context
+	 */
+	private void indexPubDelegation(Data data, Map context) {
+		Delegation delegation = (Delegation) data;		
+		Delegation previousDelegation = (Delegation) context.get(DataController.CTXT_PREVIOUS_DATA);
 
+		// Récupère le code postal avant et après modification
+		String previousDelegZipCode = previousDelegation.getZipCode();
+		String delegZipCode = delegation.getZipCode();
+		
+		// Si le code postal de la délégation à été changé alors réindexe les contenus liés
+		if(!delegZipCode.equalsIgnoreCase(previousDelegZipCode)) {
+			// Récuprère les publications qui référencent directement la délégation
+			TreeSet<Publication> pubRefSet = new TreeSet<>(delegation.getLinkIndexedDataSet(Publication.class, "delegations"));
+			
+			// Réindexe les publications associées au canton.
+			for(Publication itPub : pubRefSet) {				
+				channel.getQueryManager().getPublicationSearchEngine().update(itPub);				
+			}	
+		}		
+	}
+	
+	
 }

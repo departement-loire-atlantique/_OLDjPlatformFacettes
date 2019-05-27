@@ -59,6 +59,23 @@ String searchDisplayId = box.getDisplayPortal() != null ? box.getDisplayPortal()
             </jalios:if>			
 		</jalios:if>
 		
+		<%-- Cantons --%>
+        <jalios:if predicate='<%= "canton".equalsIgnoreCase(itFacet) %>'>
+            <jalios:field name="canton" label="Canton" value='<%= request.getParameter("canton")%>'>
+               <jalios:control settings="<%= new PublicationSettings().superType(Canton.class) %>"/>
+            </jalios:field>                     
+        </jalios:if>
+		
+		<%-- Délégations --%>
+		<jalios:if predicate='<%= "delegation".equalsIgnoreCase(itFacet) %>'>
+		   <p>Délégation</p>
+		   <jalios:foreach collection="<%= channel.getAllPublicationSet(Delegation.class, loggedMember) %>" name="itDeleg" type="Delegation">
+			   <jalios:field name="delegations" value='<%= request.getParameterValues("delegations") %>'>
+	               <jalios:control settings='<%= new PublicationSettings().checkbox().enumValues(itDeleg) %>' />
+	           </jalios:field>
+           </jalios:foreach>
+		</jalios:if>	
+				
 		<%-- Titre --%>
 		<jalios:if predicate='<%= "titre".equalsIgnoreCase(itFacet) %>'>
 			<%
@@ -68,14 +85,7 @@ String searchDisplayId = box.getDisplayPortal() != null ? box.getDisplayPortal()
 			   <jalios:control settings="<%= new PublicationSettings().superType(qh.getTypes()[0]) %>"/>
 			</jalios:field>
 		</jalios:if>
-		
-		<%-- Cantons --%>
-		<jalios:if predicate='<%= "canton".equalsIgnoreCase(itFacet) %>'>
-			<jalios:field name="canton" label="Canton" value='<%= request.getParameter("canton")%>'>
-			   <jalios:control settings="<%= new PublicationSettings().superType(Canton.class) %>"/>
-			</jalios:field>						
-		</jalios:if>
-		
+			
 		<%-- Catégories liste déroulante --%>
 		<jalios:if predicate='<%= "catégories dynamiques".equalsIgnoreCase(itFacet) %>'>
 			<jalios:foreach array="<%= box.getDynamicSelectSearchBranches() %>" name="itCat" type="String"> 
