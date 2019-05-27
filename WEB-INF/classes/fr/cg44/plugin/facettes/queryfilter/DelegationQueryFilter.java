@@ -2,24 +2,20 @@ package fr.cg44.plugin.facettes.queryfilter;
 
 import static com.jalios.jcms.Channel.getChannel;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeSet;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.jalios.jcms.HttpUtil;
-import com.jalios.jcms.QueryFilter;
 import com.jalios.jcms.handler.QueryHandler;
 import com.jalios.util.Util;
 
 import fr.cg44.plugin.facettes.policyfilter.PublicationFacetedSearchCityEnginePolicyFilter;
 import fr.cg44.plugin.facettes.policyfilter.PublicationFacetedSearchDelegationEnginePolicyFilter;
-import generated.Canton;
+
 import generated.City;
 import generated.Delegation;
 
@@ -27,13 +23,11 @@ import generated.Delegation;
 /**
  * Filtre pour la facette délégation.
  */
-public class DelegationQueryFilter extends QueryFilter {
+public class DelegationQueryFilter extends LuceneQueryFilter {
 
-	public QueryHandler filterQueryHandler(QueryHandler qh, Map context) {
-		HttpServletRequest request = getChannel().getCurrentServletRequest();	
-		if(Util.isEmpty(request)) {
-			return qh;
-		}		
+	
+	@Override
+	public QueryHandler doFilter(QueryHandler qh, Map context, HttpServletRequest request) {	
 		// Id des Delegation recherchées
 		String[] delegationIdParamsTab = request.getParameterValues("delegations");
 		// Tableau avec les delegations recherchées

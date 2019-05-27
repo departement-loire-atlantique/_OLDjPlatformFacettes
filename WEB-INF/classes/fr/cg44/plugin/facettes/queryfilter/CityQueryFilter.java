@@ -11,7 +11,6 @@ import java.util.stream.Collectors;
 import javax.servlet.http.HttpServletRequest;
 
 import com.jalios.jcms.HttpUtil;
-import com.jalios.jcms.QueryFilter;
 import com.jalios.jcms.handler.QueryHandler;
 import com.jalios.util.Util;
 
@@ -22,13 +21,10 @@ import generated.City;
 /**
  * Filtre pour la facette commune.
  */
-public class CityQueryFilter extends QueryFilter {
+public class CityQueryFilter extends LuceneQueryFilter {
 
-	public QueryHandler filterQueryHandler(QueryHandler qh, Map context) {
-		HttpServletRequest request = getChannel().getCurrentServletRequest();	
-		if(Util.isEmpty(request)) {
-			return qh;
-		}		
+	@Override
+	public QueryHandler doFilter(QueryHandler qh, Map context, HttpServletRequest request) {	
 		List<City> citiesSearchList = new ArrayList<City>();
 		// Commune principale
 		City cityData = HttpUtil.getDataParameter(request, "commune", City.class);

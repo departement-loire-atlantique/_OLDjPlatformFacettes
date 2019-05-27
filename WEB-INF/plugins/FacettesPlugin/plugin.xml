@@ -14,8 +14,7 @@
     <dependency name="SoclePlugin" />
   </dependencies>
 
- <types>
-    
+  <types>   
     <type name="PortletFacetedSearch" />
     
     <templates type="PortletFacetedSearch">    
@@ -26,6 +25,11 @@
     </templates>  
   </types>
      
+     
+  <java-classes>
+    <java package="fr.cg44.plugin.facettes" />
+  </java-classes>
+ 
  
   <plugincomponents>  
     <datacontroller        class="fr.cg44.plugin.facettes.datacontroller.IndexationDataController" types="City Canton Delegation" />
