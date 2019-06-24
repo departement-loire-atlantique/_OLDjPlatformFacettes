@@ -2,7 +2,8 @@
   @Summary: Build a set of QueryHandler based on PortletQueryForeach options
             and contextual information (workspace, member etc).
             The resulting set (queryHandlerSet) is used among others by doQuery.jsp
---%><%@page import="java.util.stream.Collectors"%>
+--%><%@page import="fr.cg44.plugin.facettes.CategoryFacetUtil"%>
+<%@page import="java.util.stream.Collectors"%>
 <%@page import="com.jalios.jcms.handler.QueryHandler"%>
 <%
 
@@ -67,49 +68,11 @@
     }
     
         
-    // DIGIWIN - ajout du cas pour la recherche à facettes.
-    if(Util.notEmpty(request.getParameter("cidBranches")) && (box.getId().equals(getDataIdParameter("portlet"))) ) {  
-    	// Ticket Jalios : https://community.jalios.com/jcms/jc_155586/fr/portlet-recherche?portal=jc_86490
-    	//PortalManager.removeAction(request, box, "DynamicQuery");
-    	// Récupère les branches de catégories de la recherche à facettes
-    	String[] cidBranches = request.getParameterValues("cidBranches");
-    	// Création d'autant de query qu'il y a de branche de catégories dans la recherche à facettes 
-    	queries = new String[cidBranches.length];
-    	// Itération sur chacune des branches de la recherche.
-    	// Chaque branche à sa propre query et cette query doit n'avoir que les cids enfants de sa branche
-    	for(int i = 0 ; i < cidBranches.length ; i++){
-    		// Récupère la query de la recherche pour modifier son paramètre cids
-    		QueryHandler itQh = new QueryHandler(ServletUtil.getQueryString(request, false));   		   		
-    		// Récupère la liste des paramètres
-    		List<String> cidsParamList = Util.notEmpty(itQh.getCids()) ? Arrays.asList(itQh.getCids()) : new ArrayList<String>(); 	
-    		
-    		// Si un enfant d'une catégorie est sélectionné alors
-    		// la catégorie parente est retirée des cids
-    		List<Category> cidsParamCatList = cidsParamList.stream().map(e -> channel.getCategory(e)).collect(Collectors.toList());
-    		// La liste des parents des cids passé en paramètre
-    		List<Category> cidsParamParentCatList = cidsParamCatList.stream().map(Category::getParent).collect(Collectors.toList());
-    		// La liste des cids filtrée seulement sur les cids qui doivent être recherchés
-    		// Si le cids en paramètre est dans la liste des parent de cids, alors celui-ci est retiré
-    		List<String> cidsFilterCatIdList = cidsParamCatList.stream().filter(e -> !cidsParamParentCatList.contains(e) ).map(Category::getId).collect(Collectors.toList());
-    		
-    		// Récupère la catégorie de la branche courante
-            String itCidBranche = cidBranches[i];
-            Category itCatBranche = channel.getCategory(itCidBranche);
-            // Récupère les catégories enfants de cette branche de catégorie (permettra de filtrer seulement sur les cids de cette branche)
-            Set<Category> itCatDescendantBrancheSet = itCatBranche.getDescendantSet();          
-            List<String> itCatDescendantBrancheIdSet = itCatDescendantBrancheSet.stream().map(Category::getId).collect(Collectors.toList()) ;  
-    		
-    		// Ne retient que les cids de la branche courante sans les parents d'une catégorie déjà sélectionnée		    		
-    		itCatDescendantBrancheIdSet.retainAll(cidsFilterCatIdList);  
-    		// Si aucun cids de branche de retenu alors garde les cids par défaut de la recherche à facettes
-    		if(Util.notEmpty(itCatDescendantBrancheIdSet)) {
-    			   itQh.setCids( itCatDescendantBrancheIdSet.toArray(new String[itCatDescendantBrancheIdSet.size()]) ); 
-    		}
-  			// La query est ajoutée au tableau des query pour être éxécutée
-    		queries[i] =  itQh.getQueryString();   		
-    	}
+    // DIGIWIN - ajout du cas pour la recherche à facettes sur les catégories.
+    if(Util.notEmpty(request.getParameter("cidBranches")) && (box.getId().equals(getDataIdParameter("portlet"))) ) {     	
+    	queries = CategoryFacetUtil.getFacetCategoryQuery(request);
+    	   	
     }
-    
     
     
     // Works on queries

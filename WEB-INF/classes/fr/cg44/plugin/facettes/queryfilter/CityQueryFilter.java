@@ -14,6 +14,7 @@ import com.jalios.jcms.HttpUtil;
 import com.jalios.jcms.handler.QueryHandler;
 import com.jalios.util.Util;
 
+import fr.cg44.plugin.facettes.policyfilter.PublicationFacetedSearchCantonEnginePolicyFilter;
 import fr.cg44.plugin.facettes.policyfilter.PublicationFacetedSearchCityEnginePolicyFilter;
 import generated.City;
 
@@ -41,7 +42,7 @@ public class CityQueryFilter extends LuceneQueryFilter {
 		}			
 		// Ajoute la commune principale et les communes limitrophes à la query
 		City[] citiesSearchArray = citiesSearchList.toArray(new City[citiesSearchList.size()]);		
-		addCitySearch(qh, citiesSearchArray);
+		addCitySearch(qh, request, citiesSearchArray);
 		return qh;
 	}
 
@@ -52,7 +53,7 @@ public class CityQueryFilter extends LuceneQueryFilter {
 	 * @param qh
 	 * @param cityData
 	 */
-	public static void addCitySearch(QueryHandler qh, City... cityData) {		
+	public  void addCitySearch(QueryHandler qh, HttpServletRequest request, City... cityData) {		
 		if(Util.notEmpty(cityData)) {
 			// Passe la query en syntaxe avancée pour accepter les requêtes lucenes
 			qh.setMode("advanced");	  
@@ -65,12 +66,7 @@ public class CityQueryFilter extends LuceneQueryFilter {
 				citySearchText += PublicationFacetedSearchCityEnginePolicyFilter.INDEX_FIELD_CITIES + ":\"" + itCity.getCityCode() + "\"";								
 			}
 			// Requêtes pour incrémenter la recherche des communes avec les précédants query des autres facettes						
-			String prevSearchText = "";
-			if(Util.notEmpty(qh.getText())) {
-				prevSearchText = qh.getText() + " AND ";
-			}	
-			// La nouvelle requêtes est settée dans la query
-			qh.setText(prevSearchText + "(" + citySearchText +")");	    	
+	    	addFacetQuery(qh, request, citySearchText); 				
 		}	
 	}
 

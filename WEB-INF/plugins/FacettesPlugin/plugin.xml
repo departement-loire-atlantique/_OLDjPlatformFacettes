@@ -19,8 +19,10 @@
     
     <templates type="PortletFacetedSearch">    
       <template name="default" file="doPortletFacetedSearch.jsp" usage="box">
-        <label xml:lang="en">Facets list</label>
         <label xml:lang="fr">Liste des facettes</label>
+      </template>
+      <template name="departmentCloseToYouSearch" file="departmentCloseToYou.jsp" usage="box">
+        <label xml:lang="fr">Portlet de recherche pour "Le département près de chez vous"</label>
       </template>
     </templates>  
   </types>
@@ -35,7 +37,7 @@
     <datacontroller        class="fr.cg44.plugin.facettes.datacontroller.IndexationDataController" types="City Canton Delegation" />
     <queryfilter           class="fr.cg44.plugin.facettes.queryfilter.CityQueryFilter" />
     <queryfilter           class="fr.cg44.plugin.facettes.queryfilter.CantonQueryFilter" />  
-    <queryfilter           class="fr.cg44.plugin.facettes.queryfilter.DelegationQueryFilter" />        
+    <queryfilter           class="fr.cg44.plugin.facettes.queryfilter.DelegationQueryFilter" />    
     <policyfilter          class="fr.cg44.plugin.facettes.policyfilter.PublicationFacetedSearchCityEnginePolicyFilter" />
     <policyfilter          class="fr.cg44.plugin.facettes.policyfilter.PublicationFacetedSearchCantonEnginePolicyFilter" />
     <policyfilter          class="fr.cg44.plugin.facettes.policyfilter.PublicationFacetedSearchDelegationEnginePolicyFilter" />

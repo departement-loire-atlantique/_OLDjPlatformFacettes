@@ -8,16 +8,12 @@
 String searchDisplayId = box.getDisplayPortal() != null ? box.getDisplayPortal().getId() : currentCategory.getId();
 
 
-%><%@ include file='/jcore/doHeader.jsp' %>
+%><%@ include file='/jcore/doHeader.jspf' %>
 
 <div>
 
 
-
-
-
-
-<%@ include file='/types/PortletSearch/doQueryHandler.jsp' %>
+<%@ include file='/types/PortletSearch/doQueryHandler.jspf' %>
 <form action="<%= box.getQueryPortlet() != null ? JcmsUtil.getDisplayUrl() : ResourceHelper.getQuery() %>" method="get" name="search" class="noSingleSubmitButton">
 
 
@@ -122,8 +118,10 @@ String searchDisplayId = box.getDisplayPortal() != null ? box.getDisplayPortal()
 <%-- 	<input type="hidden" value="true" name="<%= PortalManager.getActionParam(box.getQueryPortlet(),"DynamicQuery") %>" /> --%>
 <%--      <input type="hidden" value="<%= box.getQueryPortlet().getId() %>" name="portlet"> --%>
 	
+	<input type="hidden" name="facetOperator" value="<%= box.getFacetOperator() %>" />
+	
 	<%= formHandler.getHiddenParams() %>
-	<%@ include file='/types/PortletSearch/doHiddenParams.jsp' %> 
+	<%@ include file='/types/PortletSearch/doHiddenParams.jspf' %> 
 
 
 

@@ -37,7 +37,7 @@ public class DelegationQueryFilter extends LuceneQueryFilter {
 					.filter(pub -> pub instanceof Delegation)
 					.map(pub -> (Delegation) pub)
 					.collect(Collectors.toList());						
-			addDelegationSearch(qh, delegationList);
+			addDelegationSearch(qh, request, delegationList);
 		}
 		return qh;
 	}
@@ -49,7 +49,7 @@ public class DelegationQueryFilter extends LuceneQueryFilter {
 	 * @param qh
 	 * @param cityData
 	 */
-	public static void addDelegationSearch(QueryHandler qh, List<Delegation> delegationList) {		
+	public void addDelegationSearch(QueryHandler qh, HttpServletRequest request, List<Delegation> delegationList) {		
 		if(Util.notEmpty(delegationList)) {
 			// Passe la query en syntaxe avancée pour accepter les requêtes lucenes
 			qh.setMode("advanced");	  
@@ -63,13 +63,8 @@ public class DelegationQueryFilter extends LuceneQueryFilter {
 				// Ajout les communes de la delegation dans la recherche
 				delegationSearchText += addCityDelegationSearch(itDeleg);
 			}
-			// Requêtes pour incrémenter la recherche des delegations avec les précédants query des autres facettes						
-			String prevSearchText = "";
-			if(Util.notEmpty(qh.getText())) {
-				prevSearchText = qh.getText() + " AND ";
-			}	
-			// La nouvelle requêtes est settée dans la query
-			qh.setText(prevSearchText + "(" + delegationSearchText +")");	    	
+			// Requêtes pour incrémenter la recherche des delegations avec les précédants query des autres facettes						  
+			addFacetQuery(qh, request, delegationSearchText);
 		}	
 	}
 
@@ -79,7 +74,7 @@ public class DelegationQueryFilter extends LuceneQueryFilter {
 	 * @param delegation
 	 * @return
 	 */
-	public static String addCityDelegationSearch(Delegation delegation) { 
+	public String addCityDelegationSearch(Delegation delegation) { 
 		String citySearchText = "";
 		TreeSet<City> citiesRefSet = new TreeSet<>(delegation.getLinkIndexedDataSet(City.class, "delegation"));
 		for(City itCity : citiesRefSet) {			
